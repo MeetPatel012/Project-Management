@@ -1,15 +1,13 @@
 import {
-  Priority,
+  Task as TaskType,
   useGetTasksQuery,
-  useUpdateTasksStatusMutation,
+  useUpdateTaskStatusMutation,
 } from "@/state/api";
-import React from "react";
+import { format } from "date-fns";
+import { EllipsisVertical, MessageSquareMore, Plus } from "lucide-react";
+import Image from "next/image";
 import { DndProvider, useDrag, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { Task as TaskType } from "@/state/api";
-import { EllipsisVertical, MessageSquareMore, Plus } from "lucide-react";
-import { format } from "date-fns";
-import Image from "next/image";
 
 type BoardProps = {
   id: string;
@@ -25,7 +23,7 @@ const BoardView = ({ id, setIsModalNewTaskOpen }: BoardProps) => {
     error,
   } = useGetTasksQuery({ projectId: Number(id) });
 
-  const [updateTaskStatus] = useUpdateTasksStatusMutation();
+  const [updateTaskStatus] = useUpdateTaskStatusMutation();
 
   const moveTask = (taskId: number, toStatus: string) => {
     updateTaskStatus({ taskId, status: toStatus });
